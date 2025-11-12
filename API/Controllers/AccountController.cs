@@ -1,20 +1,22 @@
 using System;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-public class AccountController(DataContext data) : BaseApiController
+public class AccountController(DataContext data,ITokenService token) : BaseApiController
 {
     [HttpPost("register")]
-    public async Task<ActionResult<RegisterOutputDto>> Register(RegisterDto mdata)
+    public async Task<ActionResult<UserDto>> Register(RegisterDto mdata)
     {
-        if (await UserExists(mdata.UserName)) { return BadRequest(); };
+        if (await UserExists(mdata.UserName)) { return BadRequest("User Not Found"); };
         using var hmac = new HMACSHA512();
         var user = new AppUser()
         {
@@ -25,8 +27,7 @@ public class AccountController(DataContext data) : BaseApiController
 
         data.Users.Add(user);
         await data.SaveChangesAsync();
-        
-        return new RegisterOutputDto(){Id = user.Id,UserName = user.UserName};
+        return new UserDto() {UserName = user.UserName , Token = token.CreateToken(user)};
     }
 
     private async Task<bool> UserExists(string username)
@@ -35,7 +36,7 @@ public class AccountController(DataContext data) : BaseApiController
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<AppUser>> LoginIn(LoginDto mdata)
+    public async Task<ActionResult<UserDto>> LoginIn(LoginDto mdata)
     {
         ///check if user name exists
         var user = await data.Users.FirstOrDefaultAsync(x => x.UserName == mdata.UserName.ToLower());
@@ -47,6 +48,11 @@ public class AccountController(DataContext data) : BaseApiController
         {
             if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
         }
-        return Ok(user);
+        var accessToken = token.CreateToken(user);
+        return Ok(new UserDto()
+        {
+            UserName = user.UserName,
+            Token = token.CreateToken(user)
+        });
     }
 }

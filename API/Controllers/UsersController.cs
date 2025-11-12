@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,7 @@ public class UsersController(DataContext dbcon) : BaseApiController
         return Ok(user);
     }
     
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<AppUser>> GetUsersById(int id)
     {

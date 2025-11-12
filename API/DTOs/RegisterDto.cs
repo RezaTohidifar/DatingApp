@@ -31,3 +31,9 @@ public class RegisterOutputDto
     public int Id { get; set; }
     public string? UserName { get; set; }
 }
+
+public class UserDto
+{
+    public required string UserName { get; set; }
+    public required string Token { get; set; }
+}
