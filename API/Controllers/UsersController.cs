@@ -8,9 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-[ApiController]
-[Route("/api/[controller]")]
-public class UsersController(DataContext dbcon) : ControllerBase
+public class UsersController(DataContext dbcon) : BaseApiController
 {
 
     [HttpGet]
@@ -21,8 +19,7 @@ public class UsersController(DataContext dbcon) : ControllerBase
         return Ok(users);
     }
 
-    [HttpGet]
-    [Route("/api/[controller]/GetUsersByName")]
+    [HttpGet("GetUsersByName")]
     public async Task<ActionResult<AppUser>> GetUsersByName([FromQuery] string username)
     {
         var user = await dbcon.Users.SingleOrDefaultAsync(x => x.UserName == username);
