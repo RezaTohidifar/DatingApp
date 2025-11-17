@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, signal } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { User } from '../_models/Users';
+import { RegisterationUser } from '../_models/RegisterationUser';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { User } from '../_models/Users';
 export class Account {
 
   constructor(private http: HttpClient) { }
-
+  newUser = signal<User | null>(null);
   currentUser = signal<User | null>(null);
   baseUrl = 'http://localhost:5000/api/'
 
@@ -29,5 +30,17 @@ export class Account {
   logout() {
     localStorage.removeItem('user');
     this.currentUser.set(null);
+  }
+
+  register(model: RegisterationUser) {
+
+    return this.http.post<User>(this.baseUrl + 'Account/register', model).pipe(
+      map(user => {
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
+          this.newUser.set(user);
+        }
+      })
+    );
   }
 }
