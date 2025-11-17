@@ -40,7 +40,7 @@ public class AccountController(DataContext data,ITokenService token) : BaseApiCo
     {
         ///check if user name exists
         var user = await data.Users.FirstOrDefaultAsync(x => x.UserName == mdata.UserName.ToLower());
-        if (user == null) Unauthorized("invalid User");
+        if (user == null) return Unauthorized("invalid User");
         using var hmac = new HMACSHA512(user.PasswordSalt);
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(mdata.Password));
 
