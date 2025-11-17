@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, signal } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, using } from 'rxjs';
 import { User } from '../_models/Users';
 import { RegisterationUser } from '../_models/RegisterationUser';
 
@@ -32,7 +32,7 @@ export class Account {
     this.currentUser.set(null);
   }
 
-  register(model: RegisterationUser) {
+  register(model: any) {
 
     return this.http.post<User>(this.baseUrl + 'Account/register', model).pipe(
       map(user => {

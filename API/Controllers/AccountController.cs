@@ -16,7 +16,7 @@ public class AccountController(DataContext data,ITokenService token) : BaseApiCo
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto mdata)
     {
-        if (await UserExists(mdata.UserName)) { return BadRequest("User Not Found"); };
+        if (await UserExists(mdata.UserName)) { return BadRequest("User already exists"); };
         using var hmac = new HMACSHA512();
         var user = new AppUser()
         {
