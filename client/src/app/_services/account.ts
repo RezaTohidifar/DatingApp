@@ -37,8 +37,10 @@ export class Account {
     return this.http.post<User>(this.baseUrl + 'Account/register', model).pipe(
       map(user => {
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
           this.newUser.set(user);
+          this.newUser = this.currentUser;
+          localStorage.setItem('user', JSON.stringify(user));
+          
         }
       })
     );
