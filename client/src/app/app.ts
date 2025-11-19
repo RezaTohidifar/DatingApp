@@ -3,11 +3,10 @@ import { Component, inject, OnInit, signal, ChangeDetectorRef, Inject } from '@a
 import { RouterOutlet } from '@angular/router';
 import { Nav } from "./nav/nav";
 import { Account } from './_services/account';
-import { Home } from "./home/home";
 
 @Component({
   selector: 'app-root',
-  imports: [Nav, Home],
+  imports: [Nav, RouterOutlet],
   templateUrl: './app.html'
 })
 export class App implements OnInit {

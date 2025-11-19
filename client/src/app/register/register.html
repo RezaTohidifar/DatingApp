@@ -1,3 +1,5 @@
+
+@if (!this.account.currentUser()) {
 <form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off">
     <h2 class="text-center text-primary">Sign Up</h2>
     <hr>
@@ -19,3 +21,15 @@
         <button class="btn btn-default me-2" type="button" (click)="cancel()">Cancel</button>
     </div>
 </form>
+}
+
+@if (this.account.currentUser()) {
+<form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off">
+    <h2 class="text-center text-primary">You Are Aleady Signed In!</h2>
+    <hr>
+    <div class="form-group text-center">
+        <button class="btn btn-success me-2" type="submit" disabled>Register</button>
+        <button class="btn btn-default me-2 text-primary" type="button" (click)="cancel()">Cancel</button>
+    </div>
+</form>
+}
