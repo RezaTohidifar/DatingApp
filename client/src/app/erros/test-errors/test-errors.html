@@ -3,3 +3,13 @@
     <button class="btn btn-outline-primary me-2" (click)="get500error()">test 500</button>
     <button class="btn btn-outline-primary me-2" (click)="getRegistererror()">test Register</button>
 </div>
+
+@if (this.errorValidation.length > 0) {
+    <div class="row mt-5">
+        <ul class="text-danger">
+            @for (error of this.errorValidation; track $index) {
+                <li>{{error}}</li>
+            }
+        </ul>
+    </div>
+}
