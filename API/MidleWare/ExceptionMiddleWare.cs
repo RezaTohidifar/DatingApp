@@ -25,12 +25,13 @@ public class ExceptionMiddleWare(RequestDelegate next, ILogger<ExceptionMiddleWa
              ? new ApiException(context.Response.StatusCode, ex.Message, ex.StackTrace)
              : new ApiException(context.Response.StatusCode, ex.Message, "Internal Server Error");
 
-            var options = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
-            var json = JsonSerializer.Serialize(Response,options);
-            await context.Response.WriteAsync(json);
+            // var options = new JsonSerializerOptions
+            // {
+            //     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            // };
+            //var json = JsonSerializer.Serialize(Response,options);
+            await context.Response.WriteAsJsonAsync(Response);
+            //await context.Response.WriteAsync(json);
         }
     }
 
