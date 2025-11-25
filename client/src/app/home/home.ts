@@ -12,24 +12,9 @@ import { RouterLink } from "@angular/router";
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home implements OnInit{
+export class Home{
   users : any;
   registerMode = false;
-  constructor(public account: Account) { };
-  http = inject(HttpClient);
-  ngOnInit(): void {
-      this.getUsers();
-  }
-  
-  getUsers() {
-    this.http.get('http://localhost:5000/api/users').subscribe({
-      next: (response) => {
-        this.users = response;
-      },
-      error: (error) => console.log(error),
-      complete: () => console.log("done")
-    });
-  }
 
   cancelRegisteration(){
     this.registerMode = false;

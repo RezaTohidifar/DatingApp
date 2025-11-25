@@ -3,6 +3,7 @@ import { Inject, Injectable, signal } from '@angular/core';
 import { map, Observable, using } from 'rxjs';
 import { User } from '../_models/Users';
 import { RegisterationUser } from '../_models/RegisterationUser';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class Account {
   constructor(private http: HttpClient) { }
   newUser = signal<User | null>(null);
   currentUser = signal<User | null>(null);
-  baseUrl = 'http://localhost:5000/api/'
+  baseUrl = environment.apiUrl;
 
 
   login(model: any) {
