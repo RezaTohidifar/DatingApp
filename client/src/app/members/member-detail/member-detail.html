@@ -1,2 +1,63 @@
-<p>Your User</p>
-<h1>{{memberDetail?.knownAs}}</h1>
+@if (memberDetail) {
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <img src="{{memberDetail.photoUrl || './assets/user.png'}}" alt="{{memberDetail.knownAs}}"
+                    class="card-img img-thumbnail">
+
+                <div class="card-body">
+                    <div>
+                        <strong>Location</strong>
+                        <p>{{memberDetail.city}}, {{memberDetail.country}}</p>
+                    </div>
+
+                    <div>
+                        <strong>Age:</strong>
+                        <p>{{memberDetail.age}}</p>
+                    </div>
+
+                    <div>
+                        <strong>Last Active</strong>
+                        <p>{{memberDetail.lstActive}}</p>
+                    </div>
+
+                    <div>
+                        <strong>Member Since</strong>
+                        <p>{{memberDetail.createdAt}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group d-flex">
+                            <button class="btn btn-primary">Like</button>
+                            <button class="btn btn-success">Message</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-8">
+            <tabset class="member-tabset">
+                <tab heading="About {{memberDetail.knownAs}}" [active]="true" >
+                    <h4>Description</h4>
+                    <p>{{memberDetail.introduction}}</p>
+                    <h4>Looking For</h4>
+                    <p>{{memberDetail.lookingFor}}</p>
+                </tab>
+                <tab heading="Interests">
+                    <h4>Interests</h4>
+                    <p>{{memberDetail.introduction}}</p>
+                </tab>
+
+                <tab heading="Photos">
+                    <p>Photo goes here</p>
+                </tab>
+                <tab heading="Messages">
+                    <p>Messages goes here</p>
+                </tab>
+            </tabset>
+
+        </div>
+    </div>
+</div>
+}

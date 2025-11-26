@@ -2,10 +2,11 @@ import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Members } from '../../_services/members';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Member } from '../../_models/Member';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @Component({
   selector: 'app-member-detail',
-  imports: [],
+  imports: [TabsModule],
   templateUrl: './member-detail.html',
   styleUrl: './member-detail.css',
 })
@@ -36,6 +37,4 @@ export class MemberDetail implements OnInit {
 
     })
   }
-
-
 }

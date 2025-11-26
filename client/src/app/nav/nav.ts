@@ -18,13 +18,15 @@ export class Nav {
   constructor(public account : Account){};
 
   private router = inject(Router);
-  private toastr = inject(ToastrService)
+  private toastr = inject(ToastrService);
+  private cdRef = inject(ChangeDetectorRef);
 
   login() {
     this.account.login(this.model).subscribe({
       next: (response: any) => {
         this.router.navigateByUrl('/messages')
         this.toastr.success('Logged In Successfuly');
+        this.cdRef.detectChanges();
       },
       error: (error: any) => this.toastr.error('Invalid Username Or Password', 'Login Failed')
 
