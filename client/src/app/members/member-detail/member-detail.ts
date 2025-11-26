@@ -17,6 +17,10 @@ export class MemberDetail implements OnInit {
 
   private cdRef = inject(ChangeDetectorRef);
   memberDetail?: Member;
+  images: string[] = [];
+
+  selectedImage: string = '';
+  showModal: boolean = false;
 
   ngOnInit(): void {
     this.loadMember();
@@ -32,9 +36,34 @@ export class MemberDetail implements OnInit {
     this.memberService.getMember(username).subscribe({
       next: member => {
         this.memberDetail = member;
-        this.cdRef.detectChanges()
+        if (this.memberDetail.photoUrl) {
+          this.images = this.memberDetail.photos.map(z => z.url)
+        }
+        this.cdRef.detectChanges();
       }
 
     })
+  }
+
+  openImage(image: string) {
+    this.selectedImage = image;
+    this.showModal = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
+
+  nextImage() {
+    const currentIndex = this.images.indexOf(this.selectedImage);
+    const nextIndex = (currentIndex + 1) % this.images.length;
+    this.selectedImage = this.images[nextIndex];
+  }
+
+  prevImage() {
+    const currentIndex = this.images.indexOf(this.selectedImage);
+    const prevIndex = (currentIndex - 1 + this.images.length) % this.images.length;
+    this.selectedImage = this.images[prevIndex];
   }
 }

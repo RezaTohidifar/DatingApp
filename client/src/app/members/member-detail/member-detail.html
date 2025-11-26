@@ -38,7 +38,7 @@
         </div>
         <div class="col-8">
             <tabset class="member-tabset">
-                <tab heading="About {{memberDetail.knownAs}}" [active]="true" >
+                <tab heading="About {{memberDetail.knownAs}}" [active]="true">
                     <h4>Description</h4>
                     <p>{{memberDetail.introduction}}</p>
                     <h4>Looking For</h4>
@@ -50,7 +50,27 @@
                 </tab>
 
                 <tab heading="Photos">
-                    <p>Photo goes here</p>
+                    <div class="photo-gallery">
+                        <div class="gallery-grid">
+                            @for (image of images; track $index) {
+                            <div class="gallery-item" (click)="openImage(image)">
+                                <img [src]="image">
+                            </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Modal for full-size image -->
+                    @if(showModal) {
+                    <div class="image-modal" (click)="closeModal()">
+                        <div class="modal-content" (click)="$event.stopPropagation()">
+                            <button class="close-btn" (click)="closeModal()">&times;</button>
+                            <button class="nav-btn prev" (click)="prevImage()">‹</button>
+                            <img [src]="selectedImage" alt="Selected image">
+                            <button class="nav-btn next" (click)="nextImage()">›</button>
+                        </div>
+                    </div>
+                    }
                 </tab>
                 <tab heading="Messages">
                     <p>Messages goes here</p>
