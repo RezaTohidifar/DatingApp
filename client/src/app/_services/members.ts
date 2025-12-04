@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { Member } from '../_models/Member';
 import { Account } from './account';
+import { MemberUpdate } from '../_models/MemberUpdate';
 
 @Injectable({
   providedIn: 'root',
@@ -21,11 +22,8 @@ export class Members {
     return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
 
-  // getHttpOptions() {
-  //   return {
-  //     headers : new HttpHeaders({
-  //       Authorization : `Bearer ${this.account.currentUser()?.token}`
-  //     })
-  //   }
-  // }
+  updateMemberInfo(memberInfo : Member) {
+    return this.http.put(this.baseUrl + 'users',memberInfo)
+  }
+
 }

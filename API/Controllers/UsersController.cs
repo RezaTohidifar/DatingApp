@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Security.Claims;
 using API.Data;
 using API.DTOs;
 using API.Entities;
@@ -13,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Controllers;
 
 [Authorize]
-public class UsersController(IUserRepository repo) : BaseApiController
+public class UsersController(IUserRepository repo,IMapper mapper) : BaseApiController
 {
 
     [HttpGet]
@@ -43,5 +44,18 @@ public class UsersController(IUserRepository repo) : BaseApiController
     {
         var user = await repo.GetMemberAsync(username);
         return Ok(user);
+    }
+
+
+    [HttpPut]
+    public async Task<ActionResult> UpdateData(MemberUpdateDto userData)
+    {
+        var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(username)) return BadRequest("Username is not valid");
+        var data = await repo.GetUserByUsernameAsync(username);
+        if (data == null) return BadRequest("Username is not valid");
+        mapper.Map(userData,data);
+        if (await repo.SaveChangesAsync()) return Ok();
+        return BadRequest("Save Failed");
     }
 }

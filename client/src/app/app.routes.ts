@@ -9,6 +9,8 @@ import { TestErrors } from './erros/test-errors/test-errors';
 import { NOT_FOUND } from '@angular/core/primitives/di';
 import { NotFound } from './errors/not-found/not-found';
 import { ServerError } from './errors/server-error/server-error';
+import { MemberEdit } from './members/member-edit/member-edit';
+import { pereventUnsavedChangesGuard } from './_guard/perevent-unsaved-changes-guard';
 
 export const routes: Routes = [
     {path: '', component: Home},
@@ -18,6 +20,7 @@ export const routes: Routes = [
             {path : 'members/:userName' , component: MemberDetail , canActivate:[authGuard]},
             {path : 'messages' , component: Messages , canActivate:[authGuard]},
             {path : 'lists' , component: Lists , canActivate:[authGuard]},
+            {path : 'member/edit' , component: MemberEdit , canActivate:[authGuard] , canDeactivate:[pereventUnsavedChangesGuard]},
         ]
     },
     {path: 'not-found' , component: NotFound},

@@ -14,6 +14,7 @@ public class UserMapperHelper : Profile
         .ForMember(s => s.Age, o => o.MapFrom(x => x.DateOfBirth.CalculateAge()))
          .ForMember(d => d.PhotoUrl, oa => oa.MapFrom(s => s.Photos.FirstOrDefault(x => x.IsMain)!.Url));
         CreateMap<Photo, PhotoDto>();
+        CreateMap<MemberUpdateDto,AppUser>();
     }
 
 }

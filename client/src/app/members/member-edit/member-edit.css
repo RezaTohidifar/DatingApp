@@ -1,0 +1,105 @@
+/* ngx-bootstrap tabs styling for Bootstrap 5 */
+
+/* Tabs container */
+.member-tabset {
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    overflow: hidden;
+}
+
+/* Tab headers - Bootstrap 5 style */
+.member-tabset .nav-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    border-bottom: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+}
+
+.member-tabset .nav-tabs .nav-item {
+    margin-bottom: -1px;
+}
+
+.member-tabset .nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    color: #495057;
+    background-color: transparent;
+    text-decoration: none;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, 
+                border-color 0.15s ease-in-out;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.member-tabset .nav-tabs .nav-link:hover {
+    border-color: #e9ecef #e9ecef #dee2e6;
+    color: #0d6efd;
+}
+
+.member-tabset .nav-tabs .nav-link.active {
+    color: #495057;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+    border-bottom-color: transparent;
+}
+
+/* Remove default ngx-bootstrap active link styles */
+.member-tabset .nav-tabs .nav-link.active:hover,
+.member-tabset .nav-tabs .nav-link.active:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+/* Tab content area */
+.member-tabset .tab-content {
+    padding: 1.5rem;
+    background-color: #fff;
+}
+
+.tab-content-wrapper {
+    padding: 0;
+}
+
+/* Fix for the tab panel */
+.member-tabset tab {
+    display: block;
+}
+
+/* Remove any old Bootstrap 3/4 specific styles */
+.member-tabset .nav-tabs > li {
+    float: none;
+    display: inline-block;
+}
+
+.member-tabset .nav-tabs > li > a {
+    margin-right: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .member-tabset .nav-tabs {
+        flex-direction: column;
+    }
+    
+    .member-tabset .nav-tabs .nav-item {
+        width: 100%;
+    }
+    
+    .member-tabset .nav-tabs .nav-link {
+        border-radius: 0;
+        border-left: 1px solid #dee2e6;
+        border-right: 1px solid #dee2e6;
+    }
+    
+    .member-tabset .nav-tabs .nav-link.active {
+        border-left-color: #dee2e6;
+        border-right-color: #dee2e6;
+        border-bottom-color: #fff;
+    }
+}
