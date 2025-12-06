@@ -11,19 +11,14 @@ import { MemberCard } from "../member-card/member-card";
   styleUrl: './member-list.css',
 })
 export class MemberList implements OnInit {
-  private memberList = inject(Members);
+  memberList = inject(Members);
   private cdRef = inject(ChangeDetectorRef);
-  members : Member[] = [];
   ngOnInit(): void {
-      this.loadMembers();
+    console.log(this.memberList.members().length);
+    if (this.memberList.members().length === 0) this.loadMembers();
   }
 
   loadMembers() {
-    this.memberList.getMembers().subscribe({
-      next: members => {
-        this.members = members;
-        this.cdRef.detectChanges(); // Force change detection
-      }
-    });
+    this.memberList.getMembers();
   }
 }
