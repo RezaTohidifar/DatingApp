@@ -4,9 +4,11 @@ using System.Security.Claims;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Extentions;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Controllers;
 
 [Authorize]
-public class UsersController(IUserRepository repo,IMapper mapper) : BaseApiController
+public class UsersController(IUserRepository repo,IMapper mapper, IPhotoService photoService) : BaseApiController
 {
 
     [HttpGet]
@@ -57,5 +59,24 @@ public class UsersController(IUserRepository repo,IMapper mapper) : BaseApiContr
         mapper.Map(userData,data);
         if (await repo.SaveChangesAsync()) return Ok();
         return BadRequest("Save Failed");
+    }
+
+    [HttpPost("addPhoto")]
+    public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile form)
+    {
+        AppUser username = await repo.GetUserByUsernameAsync(User.GetUsernameFromToken());
+        if(username == null) return BadRequest("invalid Username");
+        var result = await photoService.AddPhotoAsync(form);
+        if (result.Error != null) return BadRequest(result.Error.Message);
+        var photo = new Photo()
+        {
+            Url = result.SecureUrl.AbsoluteUri,
+            PublicId = result.PublicId
+        };
+
+        username.Photos.Add(photo);
+        if (await repo.SaveChangesAsync()) return mapper.Map<PhotoDto>(photo);
+        return BadRequest("unable to save photo");
+
     }
 }
