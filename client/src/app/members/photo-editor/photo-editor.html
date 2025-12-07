@@ -1,0 +1,29 @@
+<div class="photo-editor-container">
+    <div class="row g-3">
+        @for (photo of member().photos; track photo.id) {
+        <div class="col-4 col-sm-3 col-md-2">
+            <div class="card photo-card">
+                <div class="card-img-container">
+                    <img [src]="photo.url" [alt]="'Photo ' + photo.id" class="card-img-top"
+                        [class.main-photo]="photo.isMain">
+                </div>
+                <div class="card-body p-2 text-center">
+                    <div class="btn-group btn-group-sm" role="group">
+                        <button type="button" class="btn" [class.btn-success]="photo.isMain"
+                            [class.btn-outline-primary]="!photo.isMain">
+                            @if (photo.isMain) {
+                            <i class="fas fa-check-circle me-1"></i> Main
+                            } @else {
+                            Set Main
+                            }
+                        </button>
+                        <button type="button" class="btn btn-outline-danger">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

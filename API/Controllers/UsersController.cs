@@ -75,8 +75,10 @@ public class UsersController(IUserRepository repo,IMapper mapper, IPhotoService 
         };
 
         username.Photos.Add(photo);
-        if (await repo.SaveChangesAsync()) return mapper.Map<PhotoDto>(photo);
+        if (await repo.SaveChangesAsync())
+        {
+            return CreatedAtAction(nameof(GetUserName),new {username = username.UserName},mapper.Map<PhotoDto>(photo));
+        }
         return BadRequest("unable to save photo");
-
     }
 }
